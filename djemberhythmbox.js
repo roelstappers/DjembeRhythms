@@ -40,25 +40,24 @@ class DjembeRhythm extends HTMLElement {
       const bpm = 60;
       
       const duration= 1/bpb/(bpm/60); // 0.18
+      const totaltime = rhythm.length*duration 
+      
       console.log(duration, bpb)
 
-      //console.log(duration)
-      //if isNu
-      //} else {
-        // const duration = 0.12;
-     //}        
-      
-      //console.log(swing)
+      const notes = []
+      const notetimes = []  // time of note in notes[] relative to start of rhythm
+      for (let i=0; i < rhythm.length; i++ ) {
+          if (rhythm[i] !== 'x' && rhythm[i] !== '-') {
+             notes.push(rhythm[i])
+             notetimes.push(i*duration)
+          }
+      }
+      console.log(notes)
+      console.log(notetimes)
+
       info.textContent = text;
   
-      // Insert djembe icon
-      //const icon = document.createElement('span');
-      //icon.setAttribute('class', 'icon');
-      //icon.setAttribute('tabindex', 0);
-      //const img = document.createElement('img');
-      //img.src = 'djembe.jpeg';
-      //icon.appendChild(img);
-  
+   
       // create Play button 
       const playbutton = document.createElement('button')
       //playbutton.setAttribute("rhythm",rhythmstring)
@@ -69,7 +68,6 @@ class DjembeRhythm extends HTMLElement {
       playbutton.addEventListener(
     "click",
      () => {
-       console.log("tt")
     // Check if context is in suspended state (autoplay policy)
     if (audioContext.state === "suspended") {
       audioContext.resume();
@@ -79,19 +77,17 @@ class DjembeRhythm extends HTMLElement {
     if (playbutton.dataset.playing === "false") {
       playbutton.dataset.playing = "true";
       console.log(rhythm)
-      console.log(audioContext.currentTime);
-      const reftime = audioContext.currentTime;
-      const totaltime = duration*rhythm.length; 
-      console.log(totaltime)
-      for (let i=0; i < rhythm.length; i++) { 
-         if (rhythm[i] !== "-" && rhythm[i] !=="x" ) { 
-            Schedule(reftime+(duration*i),duration,totaltime,noteMap[rhythm[i]].hand,noteMap[rhythm[i]].file)
-         }
-      }
+      //console.log(audioContext.currentTime);
+      //const reftime = audioContext.currentTime;
+      //const totaltime = duration*rhythm.length; 
+      //console.log(totaltime)
 
+      Schedule(0,audioContext.currentTime)
+      Schedule(1,audioContext.currentTime)
+     }      
       
       
-    } else if (playbutton.dataset.playing === "true") {
+    else if (playbutton.dataset.playing === "true") {
      
       playbutton.dataset.playing = "false";
     }
@@ -100,11 +96,18 @@ class DjembeRhythm extends HTMLElement {
 );
 
 
- //-------------------
- function Schedule(t,duration,dt,lr,filename) {  
+ // Schedules notes[i] at time notetimes[i]
+function Schedule(i,tref) {  
   if (playbutton.dataset.playing == "false" ) { return } 
   //  https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/decodeAudioData
   // https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/createBufferSource
+  
+  console.log(i)
+  console.log(noteMap[notes[i]])
+  
+  const tttt = tref + notetimes[i];
+  const lr = noteMap[notes[i]].hand;
+  const filename = noteMap[notes[i]].file;
   const source = audioContext.createBufferSource();  
   const req  = new XMLHttpRequest();
   req.open('GET',filename,true);
@@ -127,14 +130,26 @@ class DjembeRhythm extends HTMLElement {
 
       //source.connect(audioContext.destination);
   
-      source.start(t);   // add 
-      source.addEventListener("ended",()=>Schedule(t+dt,duration,dt,lr,filename));  // loop sound
+      source.start(tttt);   // add 
+      source.addEventListener("ended",()=> {
+          
+           if ((i+2) >= notes.length ) {
+            Schedule(i+2-notes.length,tref+totaltime)
+           } else {
+            console.log("hi")
+             console.log(i+2)
+             Schedule(i+2,tref); 
+           }// loop sound
+        })
       
       
-    })
+      })
   }
   req.send()
+  
 }
+
+
 
 
 
