@@ -159,7 +159,7 @@ class DjembeRhythm extends HTMLElement {
     inputbox.setAttribute('type', 'text');
     inputbox.setAttribute('value', rhythm);
     //inputbox.setAttribute('readonly', '');
-    inputbox.style.width = "100%" // rhythm.length + "ch"; // ;setAttribute('width',  '5ch');
+    inputbox.style.width = rhythm.length + "ch"; // ;setAttribute('width',  '5ch');
 
     const inputbox2 = document.createElement('input');
     inputbox2.setAttribute('type', 'text');
@@ -168,7 +168,7 @@ class DjembeRhythm extends HTMLElement {
     inputbox2.setAttribute('placeholder',string)
 
     inputbox2.setAttribute('readonly', '');
-    inputbox2.style.width = "100%"  // rhythm.length + "ch"; // ;setAttribute('width',  '5ch');
+    inputbox2.style.width = rhythm.length + "ch"; // ;setAttribute('width',  '5ch');
 
 
 
