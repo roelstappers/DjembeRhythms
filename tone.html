@@ -12,7 +12,9 @@
   </head>
 
 <body>
+  <input type="range" min="100" max="300" value="200" class="slider" id="sliderbpm">
     <button id="play-button">Play/Pause</button>
+    <div id="sliderAmount"> </div>
 
 <script>
 
@@ -72,6 +74,11 @@ document.getElementById("play-button").addEventListener("click", function() {
     Tone.Transport.stop();
   }
 });
+
+var slider =  document.getElementById("sliderbpm")
+var sliderDiv = document.getElementById("sliderAmount")
+slider.onchange= function() {Tone.Transport.bpm.value = this.value;  sliderDiv.innerHTML = "BPM " + this.value};
+
 </script>
 
 
