@@ -16,38 +16,57 @@
 
 <script>
 
-djembe = { 
-   T : new Tone.Player("./wav/tone1.wav").toDestination(),
-   S : new Tone.Player("./wav/slap1.wav").toDestination(),
-   B : new Tone.Player("./wav/bass1.wav").toDestination(),
-   t : new Tone.Player("./wav/tone2.wav").toDestination(),
-   s : new Tone.Player("./wav/slap2.wav").toDestination(),
-   b : new Tone.Player("./wav/bass2.wav").toDestination(),
+const panner1 = new Tone.Panner(-0.5).toDestination();
+const panner2 = new Tone.Panner(0.5).toDestination();
+
+djembe1 = { 
+   T : new Tone.Player("./wav/tone1.wav").connect(panner1),
+   S : new Tone.Player("./wav/slap1.wav").connect(panner1),
+   B : new Tone.Player("./wav/bass1.wav").connect(panner1),
+   t : new Tone.Player("./wav/tone2.wav").connect(panner1),
+   s : new Tone.Player("./wav/slap2.wav").connect(panner1),
+   b : new Tone.Player("./wav/bass2.wav").connect(panner1),
+};
+
+djembe2 = { 
+   T : new Tone.Player("./wav/tone1.wav").connect(panner2),
+   S : new Tone.Player("./wav/slap1.wav").connect(panner2),
+   B : new Tone.Player("./wav/bass1.wav").connect(panner2),
+   t : new Tone.Player("./wav/tone2.wav").connect(panner2),
+   s : new Tone.Player("./wav/slap2.wav").connect(panner2),
+   b : new Tone.Player("./wav/bass2.wav").connect(panner2),
 };
 
 
-Tone.Transport.bpm.value=200
+
+Tone.Transport.bpm.value=180
 Tone.Transport.timeSignature = 3;
+Tone.Transport.humanize=1;
 
-rhythm="B--s-sB---s-BtTtTtB---s-"
-//rhythm="Bsssssssssssssssssssssss"
+metronoom="1-----2-----3-----4-----"
+rhythm1  ="B--t-sB---s-BtTtTtB---s-"
+rhythm2  ="B--t-sB-TtTtB--t--B-TtTt"
+indices = new Array(); 
 
-rhythmarray=rhythm.split("")
+for (let i=0; i < rhythm1.length; i++) { indices.push(i)}
+
+
+//rhythmarray=rhythm.split("")
 
 //Tone.scheduleRepeat(playrhythm,1/3)
 
-const seq = new Tone.Sequence((time, note) => {
+const seq = new Tone.Sequence((time, idx) => {
   //console.log(djembe.get(note))
-  if (note != "-") {  djembe[note].start(time);}  
-}, rhythmarray ).start(0);
+  console.log(rhythm1[idx])
+  if (rhythm1[idx] != "-") {  djembe1[rhythm1[idx]].start(time);} 
+  if (rhythm2[idx] != "-") {  djembe2[rhythm2[idx]].start(time);}  
+},  indices ).start(0);
 
 
 
 
 document.getElementById("play-button").addEventListener("click", function() {
   if (Tone.Transport.state !== 'started') {
-    //djembe["T"].start(0)
-
     Tone.Transport.start();
   } else {
     Tone.Transport.stop();
