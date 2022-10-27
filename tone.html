@@ -16,6 +16,11 @@
     <button id="play-button">Play/Pause</button>
     <div id="sliderAmount"> </div>
 
+
+    <table id="rhythm"> 
+
+    </table>
+
 <script>
 
 const panner1 = new Tone.Panner(-0.5).toDestination();
@@ -50,7 +55,24 @@ rhythm1  ="B--t-sB---s-BtTtTtB---s-"
 rhythm2  ="B--t-sB-TtTtB--t--B-TtTt"
 indices = new Array(); 
 
-for (let i=0; i < rhythm1.length; i++) { indices.push(i)}
+var rhythmtable =  document.getElementById("rhythm")
+rhythmtable.style = "font-family: monospace;"
+var header = rhythmtable.createTHead();
+
+var metronoomtablerow = header.insertRow(0);
+var djembe1tablerow = rhythmtable.insertRow(1);
+var djembe2tablerow = rhythmtable.insertRow(2);
+
+var cell=metronoomtablerow.insertCell(0); cell.innerHTML = ""
+var cell=djembe1tablerow.insertCell(0); cell.innerHTML = "Djembe 1"
+var cell=djembe2tablerow.insertCell(0); cell.innerHTML = "Djembe 2"
+
+for (let i=0; i < rhythm1.length; i++) { indices.push(i)
+ var c=metronoomtablerow.insertCell(i+1); c.innerHTML = metronoom[i]; c.id="d"+i
+  var c=djembe1tablerow.insertCell(i+1); c.innerHTML = rhythm1[i];
+ var c=djembe2tablerow.insertCell(i+1); c.innerHTML = rhythm2[i];
+
+}
 
 
 //rhythmarray=rhythm.split("")
@@ -60,6 +82,8 @@ for (let i=0; i < rhythm1.length; i++) { indices.push(i)}
 const seq = new Tone.Sequence((time, idx) => {
   //console.log(djembe.get(note))
   console.log(rhythm1[idx])
+  m = document.getElementById("d"+(idx-1) % rhythm1.length); m.style = "";
+  m = document.getElementById("d"+idx); m.style = "background-color: #d7d9f2";
   if (rhythm1[idx] != "-") {  djembe1[rhythm1[idx]].start(time);} 
   if (rhythm2[idx] != "-") {  djembe2[rhythm2[idx]].start(time);}  
 },  indices ).start(0);
