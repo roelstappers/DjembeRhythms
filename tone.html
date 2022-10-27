@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" name="robots" content="noindex">
+    <meta http-equiv="Cache-Control" content="no-cache" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js" integrity="sha512-Siyxh4gyNM5SaERNa9BOZSPcu/auHyFUWn9OVFD7MxI3/dVPQklE7tfqS+pLmPHF1zo6UdDaJAp/thihrf0c7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title> Djembe Rhythms</title>
+    <link rel="icon" type="image/x-icon" href="favicon.jpeg">
+   <!---  <embed type="text/html" src="nav.html"> --->
+
+  </head>
+
+<body>
+    <button id="play-button">Play/Pause</button>
+
+<script>
+
+
+const T = new Tone.Player("./wav/tone1.wav").toDestination();
+const S = new Tone.Player("./wav/tone1.wav").toDestination();
+const B = new Tone.Player("./wav/tone1.wav").toDestination();
+const t = new Tone.Player("./wav/tone2.wav").toDestination();
+const s = new Tone.Player("./wav/tone2.wav").toDestination();
+const b = new Tone.Player("./wav/tone2.wav").toDestination();
+
+
+Tone.Transport.bpm.value=200
+Tone.Transport.timeSignature = 3;
+
+
+const seq = new Tone.Sequence((time, note) => {
+   note.start(time); // console.log(djembe)
+   //djembe.play(time,note)
+	// subdivisions are given as subarrays
+  //  B  -     -    s    -    s    B   ---            s    -     BtTtTtB---s-
+}, [B,null,null,s,null,s,B,null,null,null,s,null,B, t, T,t,T,t,B,null,null,null,s,null]).start(0);
+
+
+//:qseq.humanize = true;
+
+
+document.getElementById("play-button").addEventListener("click", function() {
+  if (Tone.Transport.state !== 'started') {
+    Tone.Transport.start();
+  } else {
+    Tone.Transport.stop();
+  }
+});
+</script>
+
+
+</body>

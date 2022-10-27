@@ -1,0 +1,7 @@
+{
+    "Djembe": {
+        "T": "./wav/tone1.wav",
+        "S": "./wav/slap1.wav",
+        "B": "./wav/bass1.wav"
+    }
+}
