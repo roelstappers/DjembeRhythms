@@ -16,32 +16,38 @@
 
 <script>
 
-
-const T = new Tone.Player("./wav/tone1.wav").toDestination();
-const S = new Tone.Player("./wav/tone1.wav").toDestination();
-const B = new Tone.Player("./wav/tone1.wav").toDestination();
-const t = new Tone.Player("./wav/tone2.wav").toDestination();
-const s = new Tone.Player("./wav/tone2.wav").toDestination();
-const b = new Tone.Player("./wav/tone2.wav").toDestination();
+djembe = { 
+   T : new Tone.Player("./wav/tone1.wav").toDestination(),
+   S : new Tone.Player("./wav/slap1.wav").toDestination(),
+   B : new Tone.Player("./wav/bass1.wav").toDestination(),
+   t : new Tone.Player("./wav/tone2.wav").toDestination(),
+   s : new Tone.Player("./wav/slap2.wav").toDestination(),
+   b : new Tone.Player("./wav/bass2.wav").toDestination(),
+};
 
 
 Tone.Transport.bpm.value=200
 Tone.Transport.timeSignature = 3;
 
+rhythm="B--s-sB---s-BtTtTtB---s-"
+//rhythm="Bsssssssssssssssssssssss"
+
+rhythmarray=rhythm.split("")
+
+//Tone.scheduleRepeat(playrhythm,1/3)
 
 const seq = new Tone.Sequence((time, note) => {
-   note.start(time); // console.log(djembe)
-   //djembe.play(time,note)
-	// subdivisions are given as subarrays
-  //  B  -     -    s    -    s    B   ---            s    -     BtTtTtB---s-
-}, [B,null,null,s,null,s,B,null,null,null,s,null,B, t, T,t,T,t,B,null,null,null,s,null]).start(0);
+  //console.log(djembe.get(note))
+  if (note != "-") {  djembe[note].start(time);}  
+}, rhythmarray ).start(0);
 
 
-//:qseq.humanize = true;
 
 
 document.getElementById("play-button").addEventListener("click", function() {
   if (Tone.Transport.state !== 'started') {
+    //djembe["T"].start(0)
+
     Tone.Transport.start();
   } else {
     Tone.Transport.stop();
