@@ -37,47 +37,53 @@ const table =  document.getElementsByTagName("table")[0] // only first table
 //table.style = "font-family: monospace;"
 // var header = rhythmtable.createTHead();
 
-const metronoomtablerow = table.rows[0] // header.insertRow(0);
+var metronoomtablerow = table.rows[0] // header.insertRow(0);
 var djembe1tablerow = table.rows[1] // rhythmtable.insertRow(1);
 var djembe2tablerow = table.rows[2] // rhythmtable.insertRow(1);
 
+console.log("length ", djembe1tablerow.cells)
 //var djembe2tablerow = rhythmtable.insertRow(2);
 
 //var fontsize="60px"
 //var cell=metronoomtablerow.insertCell(0); cell.innerHTML = "";       cell.style.fontSize = fontsize 
 
-for (let i=0; i < table.rows.length; i++){
-    const inst = table.rows[i].cells[0].innerHTML;
-    console.log(inst)
+//for (let i=0; i < table.rows[0].length; i++){
+//    const inst = table.rows[i].cells[0].innerHTML;
+//    console.log(inst)
 
-}
+//}
  
 //var cell=djembe1tablerow.insertCell(0); cell.innerHTML = "Djembe 1"; cell.style.fontSize = fontsize
 //var cell=djembe2tablerow.insertCell(0); cell.innerHTML = "Djembe 2"; cell.style.fontSize = fontsize
+console.log(metronoomtablerow.cells.length)
 
-for (let i=0; i < metronoomtablerow.length; i++) { 
+for (let i=0; i < metronoomtablerow.cells.length-1; i++) { 
   indices.push(i)
- var c=metronoomtablerow[i+1]; c.id="d"+i;  // c.style.fontSize = fontsize
+
+ var c=metronoomtablerow.cells[i+1]; 
+ console.log(c)
+ c.id="d"+i;  // c.style.fontSize = fontsize
  //var c=djembe1tablerow.insertCell(i+1); c.innerHTML = rhythm1[i]; c.style.fontSize = fontsize
  //var c=djembe2tablerow.insertCell(i+1); c.innerHTML = rhythm2[i];  c.style.fontSize = fontsize 
 
 }
-
+console.log("indices", indices)
 
 //rhythmarray=rhythm.split("")
 
-//Tone.scheduleRepeat(playrhythm,1/3)
+//Tone.scheduleRepeat(djembe1["T"],1/3)
 
 const seq = new Tone.Sequence((time, idx) => {
   //console.log(djembe.get(note))
  // console.log(rhythm1[idx])
+ console.log("In seq")
  var idxm1;
   if (idx==0) {idxm1 = metronoomtablerow.length-1} else {idxm1 =idx-1} 
   console.log(idxm1)
   m = document.getElementById("d"+idxm1); m.style.backgroundColor = "";
   m = document.getElementById("d"+idx); m.style.backgroundColor="#d7d9f2";
-  if (djembe1tablerow.cells[idx].innerHTML != "-") {  djembe1[djembetablerow.cells[idx].innerHTML].start(time);} 
-  if (djembe2tablerow.cells[idx].innerHTML != "-") {  djembe2[djembetablerow.cells[idx].innerHTML].start(time);}  
+  if (djembe1tablerow.cells[idx].innerHTML != "-") {  djembe1[djembe1tablerow.cells[idx].innerHTML].start(time);} 
+  if (djembe2tablerow.cells[idx].innerHTML != "-") {  djembe2[djembe2tablerow.cells[idx].innerHTML].start(time);}  
 },  indices ).start(0);
 
 
@@ -86,14 +92,18 @@ const seq = new Tone.Sequence((time, idx) => {
 //	console.log('audio is ready')
 
 document.getElementById("play-button").addEventListener("click", async () => {
-  Tone.start()
-  if (Tone.Transport.state !== 'started') {
-    await Tone.Transport.start();
+  console.log(Tone.context)
+  Tone.context.resume().then(() => 
+  {if (Tone.Transport.state !== 'started') {
+    console.log("starting")
+     djembe1["T"].start()    
+     Tone.Transport.start();
     console.log('audio is ready')
 
   } else {
     Tone.Transport.stop();
-  }
+  }}
+  )
 });
 
 var slider =  document.getElementById("sliderbpm")
