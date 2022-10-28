@@ -55,7 +55,7 @@ for (let i=0; i < table.rows.length; i++){
 //var cell=djembe1tablerow.insertCell(0); cell.innerHTML = "Djembe 1"; cell.style.fontSize = fontsize
 //var cell=djembe2tablerow.insertCell(0); cell.innerHTML = "Djembe 2"; cell.style.fontSize = fontsize
 
-for (let i=0; i < rhythm1.length; i++) { 
+for (let i=0; i < metronoomtablerow.length; i++) { 
   indices.push(i)
  var c=metronoomtablerow[i+1]; c.id="d"+i;  // c.style.fontSize = fontsize
  //var c=djembe1tablerow.insertCell(i+1); c.innerHTML = rhythm1[i]; c.style.fontSize = fontsize
@@ -81,11 +81,16 @@ const seq = new Tone.Sequence((time, idx) => {
 },  indices ).start(0);
 
 
+//async () => {
+//	await Tone.start()
+//	console.log('audio is ready')
 
-
-document.getElementById("play-button").addEventListener("click", function() {
+document.getElementById("play-button").addEventListener("click", async () => {
+  Tone.start()
   if (Tone.Transport.state !== 'started') {
-    Tone.Transport.start();
+    await Tone.Transport.start();
+    console.log('audio is ready')
+
   } else {
     Tone.Transport.stop();
   }

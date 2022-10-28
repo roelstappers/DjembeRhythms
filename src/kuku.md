@@ -1,6 +1,10 @@
 # Kuku
 
-
+```@raw html
+<input type="range" min="100" max="300" value="200" class="slider" id="sliderbpm">
+<button id="play-button">Play/Pause</button>
+<div id="sliderAmount"> </div>
+```
 
 | bla     | 1 | - | - | - | 2 | - | - | - | 3 | - | - | - | 4 | - | - | - |
 | :--     |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
