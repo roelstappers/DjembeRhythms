@@ -2,7 +2,6 @@ push!(LOAD_PATH,"../src/")
 
 
 using Documenter
-using DjembeRhythms
 
 pages = [
   "Home" => "index.md" ,
@@ -10,9 +9,13 @@ pages = [
   "Kuku" => "kuku.md"
 ]
   
-# filter!(x -> x!="index.md" &&  endswith(x,"*.md"), readdir("src/")) 
 
-format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true") 
+format = Documenter.HTML(
+    prettyurls = get(ENV, "CI", nothing) == "true"
+    assets = [
+       asset("https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js")
+    ]
+) 
 
 makedocs(
     sitename = "Djembe Rhythms",
@@ -22,6 +25,6 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/roelstappers/DjembeRhythms.jl",
+    repo = "github.com/roelstappers/DjembeRhythms",
     push_preview=true
 )
