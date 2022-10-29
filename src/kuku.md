@@ -1,10 +1,30 @@
 # Kuku
 
 ```@raw html
-<input type="range" min="100" max="300" value="200" class="slider" id="sliderbpm">
-<button id="play-button">Play/Pause</button>
-<div id="sliderAmount"> </div>
+    <div style="float: left; height: auto;" >
+         <button id="play-button">Play/Pause</button>
+         <br>
+         <input type="range" min="100" max="300" value="200" class="slider" id="sliderbpm"></input>
+         <div id="sliderAmount"> BPM </div>
+    </div>
+
+    <div style="float: left; border: 3px solid green; height: auto;; " >
+        <p>Djembe 1 </p>
+        <input type="range" min="0" max="1" value="1" step="0.1" class="gain1" id="gain1">Gain</input>
+        <br>
+        <input type="range" min="-1" max="1" value="0" step="0.1" class="panner1" id="panner1">Panner</input>
+    </div>
+
+    <div style="float: left; border: 3px solid green;" >
+        <p>Djembe 2</P>
+        <input type="range" min="0" max="1" value="0.0" step="0.1" class="gain2" id="gain2">Gain</input>
+        <br>
+        <input type="range" min="-1" max="1" value="0" step="0.1" class="panner2" id="panner2">Panner</input>
+    </div>
+    <hr style="clear:both;">
 ```
+
+# Rhythm
 
 |         | 1 | - | - | - | 2 | - | - | - | 3 | - | - | - | 4 | - | - | - |
 | :--     |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|

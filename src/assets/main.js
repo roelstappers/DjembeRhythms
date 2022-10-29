@@ -1,7 +1,37 @@
+document.getElementById("play-button").addEventListener("click", async () => {
+    Tone.context.resume().then(() => {
+        if (Tone.Transport.state !== 'started') {
+            Tone.Transport.start();
+        } else {
+            Tone.Transport.stop();
+        }
+     })
+});
+
+var sliderGain1 =  document.getElementById("gain1")
+const gain1 = new Tone.Gain(sliderGain1.value).toDestination();
+sliderGain1.onchange= function() {gain1.gain.rampTo(this.value); this.innerHTML = this.value};
+
+var sliderGain2 =  document.getElementById("gain2")
+const gain2 = new Tone.Gain(sliderGain2.value).toDestination();
+sliderGain2.onchange= function() {gain2.gain.rampTo(this.value); this.innerHTML = this.value};
 
 
-const panner1 = new Tone.Panner(-0.8).toDestination();
-const panner2 = new Tone.Panner(0.8).toDestination();
+
+var slider =  document.getElementById("sliderbpm")
+var sliderDiv = document.getElementById("sliderAmount")
+slider.onchange= function() {Tone.Transport.bpm.value = this.value;  sliderDiv.innerHTML = "BPM " + this.value};
+
+
+var sliderPanner1 =  document.getElementById("panner1")
+const panner1 = new Tone.Panner(sliderPanner1.value).connect(gain1);
+sliderPanner1.onchange= function() {panner1.pan.rampTo(this.value);};
+
+var sliderPanner2 =  document.getElementById("panner2")
+console.log(sliderPanner2.value)
+const panner2 = new Tone.Panner(sliderPanner2.value).connect(gain2);
+sliderPanner2.onchange= function() {panner2.pan.rampTo(this.value);};
+
 
 //instruments = {
     djembe1 = { 
@@ -49,28 +79,9 @@ const seq = new Tone.Sequence((time, idx) => {
     // console.log(idx, " ", idxm1 )
     m = document.getElementById("d"+idxm1); m.style.backgroundColor = "";
     m = document.getElementById("d"+idx); m.style.backgroundColor="#d7d9f2";
-    if (djembe1tablerow.cells[idx].innerHTML != "-") {  djembe1[djembe1tablerow.cells[idx].innerHTML].start(time);} 
     if (djembe2tablerow.cells[idx].innerHTML != "-") {  djembe2[djembe2tablerow.cells[idx].innerHTML].start(time);}  
+    if (djembe1tablerow.cells[idx].innerHTML != "-") {  djembe1[djembe1tablerow.cells[idx].innerHTML].start(time);} 
 },  indices ).start(0);
-
-
-//async () => {
-//	await Tone.start()
-//	console.log('audio is ready')
-
-document.getElementById("play-button").addEventListener("click", async () => {
-    Tone.context.resume().then(() => {
-        if (Tone.Transport.state !== 'started') {
-            Tone.Transport.start();
-        } else {
-            Tone.Transport.stop();
-        }
-     })
-});
-
-var slider =  document.getElementById("sliderbpm")
-var sliderDiv = document.getElementById("sliderAmount")
-slider.onchange= function() {Tone.Transport.bpm.value = this.value;  sliderDiv.innerHTML = "BPM " + this.value};
 
 
 
