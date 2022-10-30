@@ -1,29 +1,37 @@
 
-    djembe1 = { 
-        T : new Tone.Player("./wav/tone1.wav").toDestination(), //onnect(panner1),
-        S : new Tone.Player("./wav/slap1.wav").toDestination(),//connect(panner1),
-        B : new Tone.Player("./wav/bass1.wav").toDestination(),//onnect(panner1),
-        t : new Tone.Player("./wav/tone2.wav").toDestination(),//connect(panner1),
-        s : new Tone.Player("./wav/slap2.wav").toDestination(),//connect(panner1),
-        b : new Tone.Player("./wav/bass2.wav").toDestination()//connect(panner1),
-   };
-//   djembe2 = { 
- //       T : new Tone.Player("./wav/tone1.wav").connect(panner2),
- //       S : new Tone.Player("./wav/slap1.wav").connect(panner2),
- //       B : new Tone.Player("./wav/bass1.wav").connect(panner2),
- //       t : new Tone.Player("./wav/tone2.wav").connect(panner2),
- //       s : new Tone.Player("./wav/slap2.wav").connect(panner2),
- //       b : new Tone.Player("./wav/bass2.wav").connect(panner2),
- //  }
+//instrument :{
+const djembe1 = new Tone.Players({ 
+        "T" : "./wav/tone1.wav",
+        "S" : "./wav/slap1.wav",
+        "B" : "./wav/bass1.wav",
+        "t" : "./wav/tone2.wav",
+        "s" : "./wav/slap2.wav",
+        "b" : "./wav/bass2.wav"
+   });
+
+const djembe2 = new Tone.Players({ 
+    "T" : "./wav/tone1.wav",
+    "S" : "./wav/slap1.wav",
+    "B" : "./wav/bass1.wav",
+    "t" : "./wav/tone2.wav",
+    "s" : "./wav/slap2.wav",
+    "b" : "./wav/bass2.wav"
+});
 
 
-
+const instruments = {"djembe1" : djembe1, "djembe2": djembe2}
+console.log("pp",instruments["djembe1"])
 
 // Create a class for the element
 class DjembeRhythm extends HTMLElement {
     constructor() {
         // Always call super first in constructor
         super();
+        this.instrument = instruments[this.getAttribute("instrument")]
+        this.gain = new Tone.Gain(1);
+        this.gain.toDestination()
+        this.instrument.connect(this.gain)
+   
         this.createTable();
         this.scheduleOnTransport();
     }
@@ -41,10 +49,14 @@ function createTable() {
     outerdiv = document.createElement("div");
     const button = document.createElement("button"); button.innerHTML = "Play"
     const gainSlider = document.createElement("input");
-    gainSlider.type = "range"; gainSlider.min = "1"; gainSlider.max = "200";
-    gainSlider.value = "50"; gainSlider.id = "myRange"
-
-
+    gainSlider.type = "range"; gainSlider.min = "0"; gainSlider.max = "1";
+    gainSlider.step = "0.1"
+    gainSlider.value =   this.getAttribute("gain")  || 1;
+    gainSlider.id = "myRange"
+    this.gain.gain.rampTo(gainSlider.value)
+    gainSlider.onchange = () => {console.log(gainSlider.value); this.gain.gain.rampTo(gainSlider.value)} 
+    
+    
     // Create table 
     table = document.createElement("table")
     outerdiv.append(table)
@@ -53,7 +65,7 @@ function createTable() {
 
     const metronoomrow = table.insertRow(1)
     const rhythmrow = table.insertRow(2)
-
+    this.metronoomrow = metronoomrow; 
 
     const cellstyle = "padding: 10px;   border: 1px solid goldenrod; ";
     for (let i = 0; i < rhythm.length; i++) {
@@ -102,17 +114,23 @@ function createTable() {
 function scheduleOnTransport() {
     const rhythm = this.getAttribute("rhythm").split("")
     console.log(rhythm)
-    const seq = new Tone.Sequence((time, note) => {
-        if (note !='-') {djembe1[note].start(time)}
-           cell = document.getElementById("m"+i);
-           cell.backgroundColor = "black"
-    }, rhythm)
+    indices = [...Array(rhythm.length).keys()]; // 0,1,2.......
+    const seq = new Tone.Sequence((time, ind) => {
+        if (rhythm[ind] !='-') {this.instrument.player(rhythm[ind]).start(time)}
+          // console.log(
+            this.metronoomrow.cells[ind].style.backgroundColor = "green"
+            const indm1 = (ind==0) ? rhythm.length-1 : ind -1
+            this.metronoomrow.cells[indm1].style.backgroundColor = "lemonchiffon"
+            
+           //cell.backgroundColor = "black"
+    }, indices)
+    // singal always started before other
     if (this.getAttribute('name') == "Signal" ) {
         seq.loop=false
         seq.start(0)
 
     } else {
-    seq.start("2m")
+       seq.start("2m")
     }
 }
 console.log(Tone.Transport)
