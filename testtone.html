@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js" integrity="sha512-Siyxh4gyNM5SaERNa9BOZSPcu/auHyFUWn9OVFD7MxI3/dVPQklE7tfqS+pLmPHF1zo6UdDaJAp/thihrf0c7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <title>Document</title>
+</head>
+<body>
+   <script>
+const osc = new Tone.Oscillator().toDestination();
+// repeated event every 8th note
+
+Tone.Transport.scheduleRepeat((time) => {
+	// use the callback time to schedule events
+	osc.start(time).stop(time + 0.1);
+}, "8n");
+
+Tone.Transport.bpm.value=40;
+const synth = new Tone.Synth().toDestination();
+const part = new Tone.Part(((time, note) => {
+	// the notes given as the second element in the array
+	// will be passed in as the second argument
+	synth.triggerAttackRelease(note, "8n", time);
+}), [[0, "C2"], ["0:1:0", "C3"], ["0:3:2", "G2"]]).start("0:0:0");
+
+part.loop=true
+
+  function starttone(){
+    console.log("hi")
+    Tone.context.resume().then(() => {
+
+    if (Tone.Transport.state !== 'started' ) {
+    
+       Tone.Transport.start();
+    } else {
+        Tone.Transport.stop();
+    }})
+  }
+// transport must be started before it starts invoking events
+
+function startpart() {part.start()}
+
+   </script>
+   <button onclick="starttone()"> Start</button>
+   <button onclick="startpart()"> Start part</button>
+</body>
+</html>

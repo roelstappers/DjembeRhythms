@@ -13,39 +13,6 @@ const noteMap = {
 
 
 
-// Create a class for the element
-class DjembeRhythm extends HTMLElement {
-  constructor() {
-    // Always call super first in constructor
-    super();
-
-    // Create a shadow root
-    const shadow = this.attachShadow({ mode: 'open' });
-
-    // Create spans
-    const wrapper = document.createElement('span');
-    wrapper.setAttribute('class', 'wrapper');
-
-
-  // Create input box with rhythm
-  const rhythm = this.getAttribute('rhythm');
-  const bpb = Number(this.getAttribute('bpb')) || 4;  //beats per bar
-  const bars = rhythm.length / bpb; // Number(this.getAttribute('bars')) || 4  //number of  bars
-
-  const bpm = 60;
-
-  const duration = 1 / bpb / (bpm / 60); // 0.18
-  const totaltime = rhythm.length * duration
-  var notes = []
-  var notetimes = []  // time of note in notes[] relative to start of rhythm
-    for (let i = 0; i < rhythm.length; i++) {
-      if (rhythm[i] !== 'x' && rhythm[i] !== '-') {
-        notes.push(rhythm[i])
-        notetimes.push(i * duration)
-      }
-    }
-
-
     // create Play button 
     const playbutton = document.createElement('button')
     //playbutton.setAttribute("rhythm",rhythmstring)
