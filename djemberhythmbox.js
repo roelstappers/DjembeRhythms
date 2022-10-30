@@ -222,6 +222,7 @@ class DjembeRhythm extends HTMLElement {
   }
 }
 
+
 // Define the new element
 customElements.define('djembe-rhythm', DjembeRhythm);
 
