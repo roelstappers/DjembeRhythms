@@ -39,6 +39,9 @@ class DjembeRhythm extends HTMLElement {
         // Always call super first in constructor
         super();
         this.instrument = instruments[this.getAttribute("instrument")]
+        this.bpb       = this.getAttribute("bpb")
+        Tone.Transport.timeSignature = this.bpb
+
         const gainval = parseFloat(this.getAttribute("gain")) || 0.9;
         this.gain = new Tone.Gain(gainval);
         this.gain.toDestination()
@@ -83,7 +86,7 @@ function createTable() {
     const cellstyle = "padding: 10px;   border: 1px solid goldenrod; ";
     for (let i = 0; i < rhythm.length; i++) {
       //  controlsrow.insertCell(i)
-        const val = (i % 4 == 0) ? Math.floor(i / 4) + 1 : '-';
+        const val = (i % this.bpb == 0) ? Math.floor(i / this.bpb) + 1 : '-';
        // console.log(val)
         const cell = metronoomrow.insertCell(i);
         cell.innerHTML = val;
@@ -135,6 +138,7 @@ function scheduleOnTransport() {
             const indm1 = (ind==0) ? rhythm.length-1 : ind -1
             this.metronoomrow.cells[indm1].style.backgroundColor = "lemonchiffon"
      }, indices)
+     seq.humanize = false 
     // singal always started before other
     if (this.getAttribute('name') == "Signal" ) {
         seq.loop=false
@@ -145,6 +149,8 @@ function scheduleOnTransport() {
     }
 }
 console.log(Tone.Transport)
-bpmslider = document.getElementById("bpmslider")
-bpmslider.oninput = () => { console.log(bpmslider.value); Tone.Transport.bpm.rampTo(bpmslider.value) } 
+
+const bpmslider = document.getElementById("bpmslider")
+Tone.Transport.bpm.value = bpmslider.value
+bpmslider.oninput = () => {  Tone.Transport.bpm.rampTo(bpmslider.value) } 
 customElements.define('djembe-rhythm', DjembeRhythm);
