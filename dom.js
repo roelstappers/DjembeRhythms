@@ -82,7 +82,7 @@ function createTable() {
 
     const cellstyle = "padding: 10px;   border: 1px solid goldenrod; ";
     for (let i = 0; i < rhythm.length; i++) {
-        controlsrow.insertCell(i)
+      //  controlsrow.insertCell(i)
         const val = (i % 4 == 0) ? Math.floor(i / 4) + 1 : '-';
        // console.log(val)
         const cell = metronoomrow.insertCell(i);
@@ -95,9 +95,9 @@ function createTable() {
         cell2.id = "n" + (i + 1);
     }
 
-    controlsrow.cells[0].colSpan = 4
-    controlsrow.cells[1].colSpan = 4
-    controlsrow.cells[2].colSpan = 4
+    controlsrow.insertCell(0);     controlsrow.cells[0].colSpan = 4
+    controlsrow.insertCell(1); controlsrow.cells[1].colSpan = 6
+    controlsrow.insertCell(2); controlsrow.cells[2].colSpan = 6
 
     controlsrow.cells[0].append(name);
     controlsrow.cells[1].append(button);
@@ -117,7 +117,7 @@ function createTable() {
       }
     
 
-    table.style = "text-align: center; background-color: lemonchiffon; border-collapse: collapse;"
+    table.style = "text-align: center; background-color: lemonchiffon; border-collapse: collapse; font-family: monospace; font-size: 30px"
     //metronoomrow.style = "background-color: goldenrod; color: white; "
     controlsrow.style = "background-color: goldenrod; color: white; "
     this.append(outerdiv)
