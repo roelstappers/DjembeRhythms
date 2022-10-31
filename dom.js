@@ -110,9 +110,9 @@ function createTable() {
     
         if (Tone.Transport.state !== 'started' ) {
            //djembe1["T"].start()
-           Tone.Transport.start(0.1);
+           Tone.Transport.start();
         } else {
-            Tone.Transport.stop();
+            Tone.Transport.pause();
         }})
       }
     
@@ -145,5 +145,6 @@ function scheduleOnTransport() {
     }
 }
 console.log(Tone.Transport)
-Tone.Transport.bpm.value=140
+bpmslider = document.getElementById("bpmslider")
+bpmslider.oninput = () => { console.log(bpmslider.value); Tone.Transport.bpm.rampTo(bpmslider.value) } 
 customElements.define('djembe-rhythm', DjembeRhythm);
