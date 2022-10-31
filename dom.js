@@ -1,5 +1,16 @@
 
 //instrument :{
+const djembe0 = new Tone.Players({ 
+        "T" : "./wav/tone1.wav",
+        "S" : "./wav/slap1.wav",
+        "B" : "./wav/bass1.wav",
+        "t" : "./wav/tone2.wav",
+        "s" : "./wav/slap2.wav",
+        "b" : "./wav/bass2.wav"
+   });
+
+
+
 const djembe1 = new Tone.Players({ 
         "T" : "./wav/tone1.wav",
         "S" : "./wav/slap1.wav",
@@ -19,7 +30,7 @@ const djembe2 = new Tone.Players({
 });
 
 
-const instruments = {"djembe1" : djembe1, "djembe2": djembe2}
+const instruments = {"djembe0" : djembe0, "djembe1" : djembe1, "djembe2": djembe2}
 console.log("pp",instruments["djembe1"])
 
 // Create a class for the element
@@ -28,10 +39,12 @@ class DjembeRhythm extends HTMLElement {
         // Always call super first in constructor
         super();
         this.instrument = instruments[this.getAttribute("instrument")]
-        this.gain = new Tone.Gain(1);
+        const gainval = parseFloat(this.getAttribute("gain")) || 0.9;
+        this.gain = new Tone.Gain(gainval);
         this.gain.toDestination()
         this.instrument.connect(this.gain)
    
+        console.log("init gain", this.gain.gain.value)
         this.createTable();
         this.scheduleOnTransport();
     }
@@ -49,12 +62,12 @@ function createTable() {
     outerdiv = document.createElement("div");
     const button = document.createElement("button"); button.innerHTML = "Play"
     const gainSlider = document.createElement("input");
-    gainSlider.type = "range"; gainSlider.min = "0"; gainSlider.max = "1";
-    gainSlider.step = "0.1"
-    gainSlider.value =   this.getAttribute("gain")  || 1;
+    gainSlider.type = "range"; gainSlider.min = 0.0; gainSlider.max = 1.0;
+    gainSlider.step = 0.1
+    gainSlider.value =   this.gain.gain.value // getAttribute("gain")  || 1;
     gainSlider.id = "myRange"
     this.gain.gain.rampTo(gainSlider.value)
-    gainSlider.onchange = () => {console.log(gainSlider.value); this.gain.gain.rampTo(gainSlider.value)} 
+    gainSlider.onchange = () => {console.log(gainSlider.value); this.gain.gain.rampTo(parseFloat(gainSlider.value),0.1);console.log(this.gain.gain.value)} 
     
     
     // Create table 
@@ -121,9 +134,7 @@ function scheduleOnTransport() {
             this.metronoomrow.cells[ind].style.backgroundColor = "green"
             const indm1 = (ind==0) ? rhythm.length-1 : ind -1
             this.metronoomrow.cells[indm1].style.backgroundColor = "lemonchiffon"
-            
-           //cell.backgroundColor = "black"
-    }, indices)
+     }, indices)
     // singal always started before other
     if (this.getAttribute('name') == "Signal" ) {
         seq.loop=false
