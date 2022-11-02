@@ -71,7 +71,7 @@ function createControlsrow() {
 
     // Create cols
     const coldiv1 = document.createElement("div")
-    coldiv1.setAttribute("class","col")
+    coldiv1.setAttribute("class","col-6")
 
     const coldiv2 = document.createElement("div")
     coldiv2.setAttribute("class","col")
