@@ -74,9 +74,9 @@ function createControlsrow() {
     coldiv1.setAttribute("class","col-6")
 
     const coldiv2 = document.createElement("div")
-    coldiv2.setAttribute("class","col")
+    coldiv2.setAttribute("class","col-3")
     const coldiv3 = document.createElement("div")
-    coldiv3.setAttribute("class","col")
+    coldiv3.setAttribute("class","col-3")
 
 
     rowdiv.append(coldiv1,coldiv2,coldiv3)
