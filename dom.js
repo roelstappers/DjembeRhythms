@@ -82,7 +82,7 @@ function createControlsrow() {
     rowdiv.append(coldiv1,coldiv2,coldiv3)
 
     // Name
-    const span = document.createElement("h3")
+    const span = document.createElement("h4")
     span.innerText = this.name
     coldiv1.append(span)
     span.setAttribute("class","align-baseline");
