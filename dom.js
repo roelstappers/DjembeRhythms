@@ -71,12 +71,12 @@ function createControlsrow() {
 
     // Create cols
     const coldiv1 = document.createElement("div")
-    coldiv1.setAttribute("class","col-sm")
+    coldiv1.setAttribute("class","col")
 
     const coldiv2 = document.createElement("div")
-    coldiv2.setAttribute("class","col-sm")
+    coldiv2.setAttribute("class","col")
     const coldiv3 = document.createElement("div")
-    coldiv3.setAttribute("class","col-sm")
+    coldiv3.setAttribute("class","col")
 
 
     rowdiv.append(coldiv1,coldiv2,coldiv3)
@@ -113,6 +113,7 @@ function createControlsrow() {
     // Create Gain slider 
     const gainSlider = document.createElement("input");
     gainSlider.type = "range"; gainSlider.min = 0.0; gainSlider.max = 1.0;
+    gainSlider.class = "form-range"
     gainSlider.step = 0.1
     gainSlider.value =   this.gain.gain.value // getAttribute("gain")  || 1;
     gainSlider.id = "myRange"
