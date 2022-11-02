@@ -38,6 +38,9 @@ class DjembeRhythm extends HTMLElement {
     constructor() {
         // Always call super first in constructor
         super();
+ 
+        this.name = this.getAttribute("name")
+ 
         this.instrument = instruments[this.getAttribute("instrument")]
         this.bpb       = this.getAttribute("bpb")
         Tone.Transport.timeSignature = this.bpb
@@ -46,67 +49,49 @@ class DjembeRhythm extends HTMLElement {
         this.gain = new Tone.Gain(gainval);
         this.gain.toDestination()
         this.instrument.connect(this.gain)
+        this.rhythm = this.getAttribute("rhythm")
    
         console.log("init gain", this.gain.gain.value)
+        this.createControlsrow();
         this.createTable();
         this.scheduleOnTransport();
     }
 }
 
 DjembeRhythm.prototype.createTable = createTable
+DjembeRhythm.prototype.createControlsrow = createControlsrow
+
 DjembeRhythm.prototype.scheduleOnTransport = scheduleOnTransport
 
-function createTable() {
-    const rhythm = this.getAttribute("rhythm")
- 
-    const name = this.getAttribute("name")
-    //    console.log(rhythm)
 
-    outerdiv = document.createElement("div");
+function createControlsrow() {
+
+    const rowdiv = document.createElement("div")
+    rowdiv.setAttribute("class","row bg-warning ")
+
+    // Create cols
+    const coldiv1 = document.createElement("div")
+    coldiv1.setAttribute("class","col")
+
+    const coldiv2 = document.createElement("div")
+    coldiv2.setAttribute("class","col")
+    const coldiv3 = document.createElement("div")
+    coldiv3.setAttribute("class","col")
+
+
+    rowdiv.append(coldiv1,coldiv2,coldiv3)
+
+    // Name
+    const span = document.createElement("h3")
+    span.innerText = this.name
+    coldiv1.append(span)
+    span.setAttribute("class","align-baseline");
+    
+    // Create button 
     const button = document.createElement("button"); button.innerHTML = "Play"
-    const gainSlider = document.createElement("input");
-    gainSlider.type = "range"; gainSlider.min = 0.0; gainSlider.max = 1.0;
-    gainSlider.step = 0.1
-    gainSlider.value =   this.gain.gain.value // getAttribute("gain")  || 1;
-    gainSlider.id = "myRange"
-    this.gain.gain.rampTo(gainSlider.value)
-    gainSlider.onchange = () => {console.log(gainSlider.value); this.gain.gain.rampTo(parseFloat(gainSlider.value),0.1);console.log(this.gain.gain.value)} 
+    button.setAttribute("class","btn btn-primary btn");
+    button.setAttribute("type","button") 
     
-    
-    // Create table 
-    table = document.createElement("table")
-    outerdiv.append(table)
-
-    const controlsrow = table.insertRow(0)
-
-    const metronoomrow = table.insertRow(1)
-    const rhythmrow = table.insertRow(2)
-    this.metronoomrow = metronoomrow; 
-
-    const cellstyle = "padding: 10px;   border: 1px solid goldenrod; ";
-    for (let i = 0; i < rhythm.length; i++) {
-      //  controlsrow.insertCell(i)
-        const val = (i % this.bpb == 0) ? Math.floor(i / this.bpb) + 1 : '-';
-       // console.log(val)
-        const cell = metronoomrow.insertCell(i);
-        cell.innerHTML = val;
-        cell.style = cellstyle;
-        cell.id = "m" + (i + 1);
-        cell2 = rhythmrow.insertCell(i);
-        cell2.innerHTML = rhythm[i];
-        cell2.style = cellstyle;
-        cell2.id = "n" + (i + 1);
-    }
-
-    controlsrow.insertCell(0);     controlsrow.cells[0].colSpan = 4
-    controlsrow.insertCell(1); controlsrow.cells[1].colSpan = 6
-    controlsrow.insertCell(2); controlsrow.cells[2].colSpan = 6
-
-    controlsrow.cells[0].append(name);
-    controlsrow.cells[1].append(button);
-    controlsrow.cells[2].append(gainSlider);
-
-
     button.onclick =   function starttone(){
         console.log("hi")
         Tone.context.resume().then(() => {
@@ -118,24 +103,85 @@ function createTable() {
             Tone.Transport.pause();
         }})
       }
-    
 
-    table.style = "text-align: center; background-color: lemonchiffon; border-collapse: collapse; font-family: monospace; font-size: 30px"
-    //metronoomrow.style = "background-color: goldenrod; color: white; "
-    controlsrow.style = "background-color: goldenrod; color: white; "
-    this.append(outerdiv)
+    
+    
+    coldiv2.append(button)
+
+
+
+    // Create Gain slider 
+    const gainSlider = document.createElement("input");
+    gainSlider.type = "range"; gainSlider.min = 0.0; gainSlider.max = 1.0;
+    gainSlider.step = 0.1
+    gainSlider.value =   this.gain.gain.value // getAttribute("gain")  || 1;
+    gainSlider.id = "myRange"
+    this.gain.gain.rampTo(gainSlider.value)
+    gainSlider.onchange = () => {console.log(gainSlider.value); this.gain.gain.rampTo(parseFloat(gainSlider.value),0.1);console.log(this.gain.gain.value)} 
+    
+    coldiv3.append(gainSlider)
+    this.append(rowdiv)
+    //
+
 }
-//console.log(table)
+
+
+function createTable() {
+   // const rhythm = this.getAttribute("rhythm")
+    //    console.log(rhythm)
+
+    //outerdiv = document.createElement("div");
+    //outerdiv.setAttribute("class","table-responsive")
+    // Create table 
+    row = document.createElement("div")
+    row.setAttribute("class","row")
+
+    table = document.createElement("table")
+    table.setAttribute("class","table  table-sm table-responsive table-bordered")
+    table.style.tableLayout = "fixed"
+    row.append(table)
+
+    const metronoomrow = table.insertRow(0)
+
+    const rhythmrow = table.insertRow(1)
+    this.metronoomrow = metronoomrow; 
+
+   //  const cellstyle = "padding: 10px;   border: 1px solid goldenrod; ";
+    for (let i = 0; i < this.rhythm.length; i++) {
+        const val = (i % this.bpb == 0) ? Math.floor(i / this.bpb) + 1 : '-';
+
+        const cell = metronoomrow.insertCell(i);
+        cell.innerHTML = val;
+        cell.id = "m" + (i + 1);
+        cell.setAttribute("class","text-center")
+        cell.style.width = 100/this.rhythm.length; 
+       // cell.setAttribute("padding","0")
+       // cell.setAttribute("margin","0")
+      //  cell.style = "border: 1px solid black;   border-collapse: collapse;"
+          
+        
+        const cell2 = rhythmrow.insertCell(i);
+        cell2.innerHTML = this.rhythm[i];
+        cell2.setAttribute("class","text-center")
+        cell2.style.width = 100/this.rhythm.length; 
+        
+       //   cell2.setAttribute("padding","0")
+      //  cell2.setAttribute("margin","0")
+        cell2.id = "n" + (i + 1);
+     //   cell2.style = "border: 1px solid black;   border-collapse: collapse;"
+       
+    }
+
+    this.append(row) //outerdiv)
+}
 
 function scheduleOnTransport() {
-    const rhythm = this.getAttribute("rhythm").split("")
-    console.log(rhythm)
-    indices = [...Array(rhythm.length).keys()]; // 0,1,2.......
+    indices = [...Array(this.rhythm.length).keys()]; // 0,1,2.......
     const seq = new Tone.Sequence((time, ind) => {
-        if (rhythm[ind] !='-') {this.instrument.player(rhythm[ind]).start(time)}
+        if (this.rhythm[ind] !='-') {this.instrument.player(this.rhythm[ind]).start(time)}
           // console.log(
             this.metronoomrow.cells[ind].style.backgroundColor = "green"
-            const indm1 = (ind==0) ? rhythm.length-1 : ind -1
+            const indm1 = (ind==0) ? this.rhythm.length-1 : ind -1
             this.metronoomrow.cells[indm1].style.backgroundColor = "lemonchiffon"
      }, indices)
      seq.humanize = false 
@@ -148,7 +194,6 @@ function scheduleOnTransport() {
        seq.start("2m")
     }
 }
-console.log(Tone.Transport)
 
 const bpmslider = document.getElementById("bpmslider")
 Tone.Transport.bpm.value = bpmslider.value

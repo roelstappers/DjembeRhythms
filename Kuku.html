@@ -1,43 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" name="robots" content="noindex">
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js" integrity="sha512-Siyxh4gyNM5SaERNa9BOZSPcu/auHyFUWn9OVFD7MxI3/dVPQklE7tfqS+pLmPHF1zo6UdDaJAp/thihrf0c7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Kuku </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"
+    integrity="sha512-Siyxh4gyNM5SaERNa9BOZSPcu/auHyFUWn9OVFD7MxI3/dVPQklE7tfqS+pLmPHF1zo6UdDaJAp/thihrf0c7w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="icon" type="image/x-icon" href="favicon.jpeg">
+  </link>
 
-<!---    <script type="text/javascript" src="dom.js" defer></script>--->
+  <script type="text/javascript" src="dom.js" defer></script>
 
-    <script type="text/javascript" src="dom.js" defer></script>
-
-    <title> Kuku</title>
-    <link rel="icon" type="image/x-icon" href="favicon.jpeg"></link>
-        
-
-  </head>
+</head>
 
 <body>
-<h1>  Kuku </h1>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+
+  <div class="container-fluid">
+
+    <h1>Kuku</h1>
+
+    <div class="row">
+      <div class="slidecontainer">
+        <input type="range" min="60" max="300" value="200" class="slider" id="bpmslider">BPM</input>
+      </div>
 
 
-<div class="slidecontainer">
-  <input type="range" min="60" max="300" value="200" class="slider" id="bpmslider">BPM</input>
-</div>
+      <djembe-rhythm name="Signal" instrument="djembe0" rhythm="T-tT-t-Tt-SsS---" bpb="4"></djembe-rhythm>
+
+      <djembe-rhythm name="Djembe 1" instrument="djembe1" rhythm="B-Tt--S-B-Tt--S-" bpb="4"> </djembe-rhythm>
+      <djembe-rhythm name="Djembe 2" instrument="djembe2" rhythm="Tt-sTtS-Tt-sTtS-" gain="0.1" bpb="4"> </djembe-rhythm>
 
 
-<djembe-rhythm name="Signal"   instrument="djembe0" rhythm = "T-tT-t-Tt-SsS---"     bpb="4"></djembe-rhythm>
+      <h2>Source </h2>
 
-<djembe-rhythm name="Djembe 1" instrument="djembe1" rhythm = "B-Tt--S-B-Tt--S-"      bpb="4"> </djembe-rhythm>
-<djembe-rhythm name="Djembe 2" instrument="djembe2" rhythm = "Tt-sTtS-Tt-sTtS-"     gain="0.1" bpb="4"> </djembe-rhythm>
-
-
-<h2>Source </h2>
- 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EO7gccICAcQ?start=2003" title="YouTube video player" 
-frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<!--- <djembe-rhythm name="Sangban"  instrument="djembe2" rhythm = "----------------"     gain="0.0" bpb="4"> </djembe-rhythm>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/EO7gccICAcQ?start=2003"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+      <!--- <djembe-rhythm name="Sangban"  instrument="djembe2" rhythm = "----------------"     gain="0.0" bpb="4"> </djembe-rhythm>
 <djembe-rhythm name="Sangban bell" instrument="djembe2" rhythm = "----------------"     gain="0.0" bpb="4"> </djembe-rhythm>
 --->
+    </div>
+  </div>
 
 </body>
