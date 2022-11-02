@@ -71,12 +71,12 @@ function createControlsrow() {
 
     // Create cols
     const coldiv1 = document.createElement("div")
-    coldiv1.setAttribute("class","col-6")
+    coldiv1.setAttribute("class","col-5")
 
     const coldiv2 = document.createElement("div")
-    coldiv2.setAttribute("class","col-3")
+    coldiv2.setAttribute("class","col-2")
     const coldiv3 = document.createElement("div")
-    coldiv3.setAttribute("class","col-3")
+    coldiv3.setAttribute("class","col-4")
 
 
     rowdiv.append(coldiv1,coldiv2,coldiv3)
