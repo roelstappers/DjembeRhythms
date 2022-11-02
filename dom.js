@@ -71,21 +71,21 @@ function createControlsrow() {
 
     // Create cols
     const coldiv1 = document.createElement("div")
-    coldiv1.setAttribute("class","col-5")
+    coldiv1.setAttribute("class","col")
 
     const coldiv2 = document.createElement("div")
-    coldiv2.setAttribute("class","col-2")
+    coldiv2.setAttribute("class","col")
     const coldiv3 = document.createElement("div")
-    coldiv3.setAttribute("class","col-5")
+    coldiv3.setAttribute("class","col")
 
 
     rowdiv.append(coldiv1,coldiv2,coldiv3)
 
     // Name
-    const span = document.createElement("h4")
+    const span = document.createElement("span")
     span.innerText = this.name
     coldiv1.append(span)
-    span.setAttribute("class","align-baseline");
+    //span.setAttribute("class","align-baseline");
     
     // Create button 
     const button = document.createElement("button"); button.innerHTML = "Play"
