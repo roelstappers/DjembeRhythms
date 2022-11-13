@@ -1,5 +1,5 @@
 
-//instrument :{
+// instruments 
 const djembe0 = new Tone.Players({ 
         "T" : "./wav/tone1.wav",
         "S" : "./wav/slap1.wav",
@@ -31,7 +31,8 @@ const djembe2 = new Tone.Players({
 
 
 const instruments = {"djembe0" : djembe0, "djembe1" : djembe1, "djembe2": djembe2}
-console.log("pp",instruments["djembe1"])
+
+//----------------------------------------
 
 // Create a class for the element
 class DjembeRhythm extends HTMLElement {
@@ -88,25 +89,11 @@ function createControlsrow() {
     //span.setAttribute("class","align-baseline");
     
     // Create button 
-    const button = document.createElement("button"); button.innerHTML = "Play"
-    button.setAttribute("class","btn btn-primary btn");
-    button.setAttribute("type","button") 
-    
-    button.onclick =   function starttone(){
-        console.log("hi")
-        Tone.context.resume().then(() => {
-    
-        if (Tone.Transport.state !== 'started' ) {
-           //djembe1["T"].start()
-           Tone.Transport.start();
-        } else {
-            Tone.Transport.pause();
-        }})
-      }
+  //  const button = document.createElement("button"); button.innerHTML = "Play"
 
     
     
-    coldiv2.append(button)
+   // coldiv2.append(button)
 
 
 
@@ -195,8 +182,57 @@ function scheduleOnTransport() {
        seq.start("2m")
     }
 }
+customElements.define('djembe-rhythm', DjembeRhythm);
 
-const bpmslider = document.getElementById("bpmslider")
+
+// Header
+const header = document.getElementById("header")
+header.style.backgroundColor = "#90bd84"
+header.setAttribute("class","row")
+
+const titlediv = document.createElement("div")
+titlediv.setAttribute("class","col")
+
+const sliderdiv = document.createElement("div")
+sliderdiv.setAttribute("class","col")
+
+const playbuttondiv = document.createElement("div")
+playbuttondiv.setAttribute("class","col")
+
+
+const title = document.createElement("h1")
+titlediv.append(title)
+const bpmslider = document.createElement("input")
+sliderdiv.append(bpmslider)
+const playbutton = document.createElement("button")
+playbuttondiv.append(playbutton)
+
+header.append(titlediv,playbuttondiv,sliderdiv)
+
+
+// Title
+title.innerText = document.title
+
+
+// bpmslider
+bpmslider.setAttribute("type","range")
+bpmslider.setAttribute("min","60")
+bpmslider.setAttribute("max","300")
+bpmslider.setAttribute("value","200")
 Tone.Transport.bpm.value = bpmslider.value
 bpmslider.oninput = () => {  Tone.Transport.bpm.rampTo(bpmslider.value) } 
-customElements.define('djembe-rhythm', DjembeRhythm);
+
+// Playbutton
+playbutton.setAttribute("class","btn btn-primary btn");
+playbutton.setAttribute("type","button") 
+playbutton.innerText="Play"
+playbutton.onclick =   function starttone(){
+    Tone.context.resume().then(() => {
+    if (Tone.Transport.state !== 'started' ) {
+       Tone.Transport.start();
+    } else {
+        Tone.Transport.pause();
+    }})
+  }
+
+
