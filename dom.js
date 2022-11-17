@@ -187,13 +187,17 @@ function scheduleOnTransport() {
      }, indices)
      seq.humanize = false 
     // singal always started before other
-    if (this.getAttribute('name') == "Signal" ) {
-        seq.loop=false
-        seq.start(0)
+    const loop = this.getAttribute("loop") === "true"
+    seq.loop = loop 
+    const start = this.getAttribute("start")
+    seq.start(start)
+    // if (this.getAttribute('name') == "Signal" ) {
+    //     seq.loop=false
+    //     seq.start(0)
 
-    } else {
-       seq.start("2m")
-    }
+    // } else {
+    //    seq.start("2m")
+    // }
 }
 
 const bpmslider = document.getElementById("bpmslider")
