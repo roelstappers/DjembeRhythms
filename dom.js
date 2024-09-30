@@ -30,7 +30,7 @@ const djembe2 = new Tone.Players({
 });
 
 
-const instruments = {"djembe0" : djembe0, "djembe1" : djembe1, "djembe2": djembe2}
+const instruments = {"djembe0" : djembe0, "djembe1" : djembe1, "djembe2": djembe2, "djembe3": djembe3}
 console.log("pp",instruments["djembe1"])
 
 // Create a class for the element
