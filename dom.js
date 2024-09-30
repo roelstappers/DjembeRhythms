@@ -30,6 +30,15 @@ const djembe2 = new Tone.Players({
 });
 
 
+const djembe3 = new Tone.Players({ 
+    "T" : "./wav/tone1.wav",
+    "S" : "./wav/slap1.wav",
+    "B" : "./wav/bass1.wav",
+    "t" : "./wav/tone2.wav",
+    "s" : "./wav/slap2.wav",
+    "b" : "./wav/bass2.wav"
+});
+
 const instruments = {"djembe0" : djembe0, "djembe1" : djembe1, "djembe2": djembe2, "djembe3": djembe3}
 console.log("pp",instruments["djembe1"])
 
